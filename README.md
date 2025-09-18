@@ -1,35 +1,4 @@
-<h1 align="center">
-  <!-- Animated SVG header (works on GitHub README) -->
-  <svg width="720" height="120" viewBox="0 0 720 120" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RoGhar - Welcome">
-    <defs>
-      <linearGradient id="g" x1="0" x2="1">
-        <stop offset="0" stop-color="#FF6B6B"/>
-        <stop offset="1" stop-color="#6B8BFF"/>
-      </linearGradient>
-      <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#000" flood-opacity="0.25"/>
-      </filter>
-    </defs>
 
-    <rect width="100%" height="100%" rx="14" fill="transparent"/>
-    <text x="50%" y="38" text-anchor="middle" font-family="Segoe UI, Roboto, system-ui, -apple-system" font-size="26" fill="url(#g)" filter="url(#shadow)">
-      RoGhar
-    </text>
-
-    <text id="subtitle" x="50%" y="74" text-anchor="middle" font-family="Segoe UI, Roboto, system-ui" font-size="14" fill="#6b7280">
-      Affordable housing & worker support — search · list · connect
-    </text>
-
-    <!-- little moving house icon using animateTransform -->
-    <g transform="translate(48,64)">
-      <g id="house" transform="translate(0,0)">
-        <rect x="0" y="-18" width="24" height="18" rx="3" fill="#ffffff" stroke="url(#g)" stroke-width="1.5"></rect>
-        <polygon points="-3,-18 12,-34 27,-18" fill="url(#g)"></polygon>
-      </g>
-      <animateTransform xlink:href="#house" attributeName="transform" type="translate" from="48,64" to="56,64" dur="1.4s" repeatCount="indefinite" />
-    </g>
-  </svg>
-</h1>
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-alpha-orange" alt="status" />&nbsp;
@@ -57,13 +26,6 @@
 
 ---
 
-## 📸 Demo / Animated preview
-
-> Replace the GIF below with your demo recording (`docs/demo.gif`) for a lively README.
-
-![RoGhar demo placeholder](https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif)
-
----
 
 ## 🧭 Quickstart (local)
 
@@ -152,4 +114,3 @@ Drop a star ⭐ on the repo and let's build more features!
 
 ---
 
-*README generated automatically. Want a version tailored in Hinglish, or a README + CONTRIBUTING + CODE_OF_CONDUCT bundle? Reply and I’ll create those files too!*
