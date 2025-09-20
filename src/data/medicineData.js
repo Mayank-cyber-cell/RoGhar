@@ -4,27 +4,27 @@ export let medicineDatabase = [];
 // Medicine types
 export const medicineTypes = ["All", "Tablet", "Capsule", "Syrup", "Injection", "Cream", "Drops"];
 
-// ✅ Load medicine dataset from local JSON
-export const loadMedicineDataset = async () => {
+// ✅ Fetch medicines from FDA API
+export const fetchMedicinesFromAPI = async (query = "") => {
   try {
-    const response = await fetch("data/medicines.json"); 
+    const apiKey = "sdtfbNb3kElJcskvr8afXkew46t7V1AoBn5Zzd8F";
+    const url = `https://api.fda.gov/drug/event.json?api_key=${apiKey}&search=${query}&limit=10`;
+
+    const response = await fetch(url);
     const data = await response.json();
 
-    // Normalize dataset
-    medicineDatabase = data.map((item, index) => ({
-      id: index + 1,
-      name: item.name || "Unknown Medicine",
-      brand: item.brand || "Unknown Brand",
-      description: item.description || "No description available",
-      type: item.type || "Unknown",
-      manufacturer: item.manufacturer || "Not specified",
-      price: item.price || null,
-      stock: item.in_stock !== undefined ? item.in_stock : true
-    }));
+    if (data.results) {
+      medicineDatabase = data.results.map((item, index) => ({
+        id: index + 1,
+        name: item.patient?.drug?.[0]?.medicinalproduct || "Unknown Medicine",
+        description: item.safetyreportid || "No description available",
+        type: "Tablet", // API doesn’t provide type, you can classify later
+      }));
+    }
 
     return medicineDatabase;
   } catch (error) {
-    console.error("Error loading medicine dataset:", error);
+    console.error("Error fetching medicines:", error);
     return [];
   }
 };
@@ -36,10 +36,8 @@ export const searchMedicines = (query, medicines = medicineDatabase) => {
   const searchTerm = query.toLowerCase().trim();
   return medicines.filter(medicine =>
     medicine.name.toLowerCase().includes(searchTerm) ||
-    medicine.brand.toLowerCase().includes(searchTerm) ||
     medicine.description.toLowerCase().includes(searchTerm) ||
-    medicine.type.toLowerCase().includes(searchTerm) ||
-    (medicine.manufacturer?.toLowerCase().includes(searchTerm))
+    medicine.type.toLowerCase().includes(searchTerm)
   );
 };
 
