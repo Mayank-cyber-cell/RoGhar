@@ -1,4 +1,38 @@
 // Medicine dataset - imported from MedGuide-Pill_Tracker concept
+
+// API Configuration
+export const MEDICINE_API_KEY = 'sdtfbNb3kElJcskvr8afXkew46t7V1AoBn5Zzd8F';
+export const MEDICINE_API_BASE_URL = 'https://api.fda.gov/drug';
+
+// Enhanced medicine search with API integration
+export const searchMedicinesWithAPI = async (query) => {
+  if (!query.trim()) return medicineDatabase;
+  
+  try {
+    // First search local database
+    const localResults = searchMedicines(query, medicineDatabase);
+    
+    // If we have local results, return them
+    if (localResults.length > 0) {
+      return localResults;
+    }
+    
+    // If no local results, try API search (placeholder for actual API integration)
+    // Note: This is a placeholder - actual FDA API integration would require different endpoints
+    console.log(`Searching API with key: ${MEDICINE_API_KEY} for query: ${query}`);
+    
+    // For now, return local database results
+    return medicineDatabase.filter(medicine => 
+      medicine.name.toLowerCase().includes(query.toLowerCase()) ||
+      medicine.description.toLowerCase().includes(query.toLowerCase())
+    );
+  } catch (error) {
+    console.error('API search failed:', error);
+    // Fallback to local search
+    return searchMedicines(query, medicineDatabase);
+  }
+};
+
 export const medicineDatabase = [
   {
     id: 1,
