@@ -4,33 +4,27 @@ export let medicineDatabase = [];
 // Medicine types
 export const medicineTypes = ["All", "Tablet", "Capsule", "Syrup", "Injection", "Cream", "Drops"];
 
-// ✅ Fetch medicines from openFDA API
-export const fetchMedicinesFromAPI = async (query = "") => {
+// ✅ Load medicine dataset from local JSON
+export const loadMedicineDataset = async () => {
   try {
-    const apiKey = "y16OJL88H44RWW6lZvgu82dXpuruGtJkhVAcsckt";
-    const url = `https://api.fda.gov/drug/label.json?api_key=${apiKey}&search=${query}&limit=10`;
-
-    const response = await fetch(url);
+    const response = await fetch("data/medicines.json"); 
     const data = await response.json();
 
-    if (data.results) {
-      // Normalize into our format
-      medicineDatabase = data.results.map((item, index) => ({
-        id: index + 1,
-        name: item.openfda?.brand_name?.[0] || 
-              item.openfda?.generic_name?.[0] || 
-              "Unknown Medicine",
-        description: item.indications_and_usage?.[0] || "No description available",
-        type: "Tablet", // API doesn’t give type, you can improve classification later
-        manufacturer: item.openfda?.manufacturer_name?.[0] || "Not specified",
-        warnings: item.warnings?.[0] || null,
-        dosage: item.dosage_and_administration?.[0] || null
-      }));
-    }
+    // Normalize dataset
+    medicineDatabase = data.map((item, index) => ({
+      id: index + 1,
+      name: item.name || "Unknown Medicine",
+      brand: item.brand || "Unknown Brand",
+      description: item.description || "No description available",
+      type: item.type || "Unknown",
+      manufacturer: item.manufacturer || "Not specified",
+      price: item.price || null,
+      stock: item.in_stock !== undefined ? item.in_stock : true
+    }));
 
     return medicineDatabase;
   } catch (error) {
-    console.error("Error fetching medicines from openFDA:", error);
+    console.error("Error loading medicine dataset:", error);
     return [];
   }
 };
@@ -42,6 +36,7 @@ export const searchMedicines = (query, medicines = medicineDatabase) => {
   const searchTerm = query.toLowerCase().trim();
   return medicines.filter(medicine =>
     medicine.name.toLowerCase().includes(searchTerm) ||
+    medicine.brand.toLowerCase().includes(searchTerm) ||
     medicine.description.toLowerCase().includes(searchTerm) ||
     medicine.type.toLowerCase().includes(searchTerm) ||
     (medicine.manufacturer?.toLowerCase().includes(searchTerm))
