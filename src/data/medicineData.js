@@ -58,3 +58,29 @@ export const getMedicineByName = (name) => {
     medicine.name.toLowerCase() === name.toLowerCase()
   );
 };
+
+export const fetchFromMyUpchar = async (query) => {
+  try {
+    const url = `https://www.myupchar.com/api/medicine/search?q=${query}&limit=10`; 
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (data.details) {
+      return {
+        id: data.details.product_id,
+        name: data.details.name,
+        description: data.details.uses.main.join(", "),
+        type: data.details.otc_type || "Unknown",
+        manufacturer: data.details.manufacturer?.name,
+        sideEffects: data.details.side_effects,
+        inStock: data.details.in_stock,
+        price: data.details.offers?.[0]?.final_price,
+        image: data.details.image_array?.[0]
+      };
+    }
+    return null;
+  } catch (err) {
+    console.error("Error fetching from MyUpchar:", err);
+    return null;
+  }
+};
