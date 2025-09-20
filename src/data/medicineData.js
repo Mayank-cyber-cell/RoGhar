@@ -4,36 +4,33 @@ export let medicineDatabase = [];
 // Medicine types
 export const medicineTypes = ["All", "Tablet", "Capsule", "Syrup", "Injection", "Cream", "Drops"];
 
-// ✅ Fetch medicines from MyUpchar API
-export const fetchFromMyUpchar = async (query = "") => {
+// ✅ Fetch medicines from openFDA API
+export const fetchMedicinesFromAPI = async (query = "") => {
   try {
-    const url = `https://www.myupchar.com/api/medicine/search?q=${query}&limit=10`;
+    const apiKey = "y16OJL88H44RWW6lZvgu82dXpuruGtJkhVAcsckt";
+    const url = `https://api.fda.gov/drug/label.json?api_key=${apiKey}&search=${query}&limit=10`;
+
     const response = await fetch(url);
     const data = await response.json();
 
-    if (data.status === "OK" && data.details) {
-      // Normalize into our medicineDatabase format
-      const medicineObj = {
-        id: data.details.product_id,
-        name: data.details.name,
-        description: data.details.uses?.main?.join(", ") || "No description available",
-        type: data.details.otc_type || "Unknown",
-        manufacturer: data.details.manufacturer?.name || "Not specified",
-        sideEffects: data.details.side_effects || [],
-        inStock: data.details.in_stock || false,
-        price: data.details.offers?.[0]?.final_price || null,
-        mrp: data.details.offers?.[0]?.mrp || null,
-        image: data.details.image_array?.[0] || null,
-        rating: data.details.rating?.average || 0
-      };
-
-      // Add/replace in database
-      medicineDatabase = [medicineObj];
+    if (data.results) {
+      // Normalize into our format
+      medicineDatabase = data.results.map((item, index) => ({
+        id: index + 1,
+        name: item.openfda?.brand_name?.[0] || 
+              item.openfda?.generic_name?.[0] || 
+              "Unknown Medicine",
+        description: item.indications_and_usage?.[0] || "No description available",
+        type: "Tablet", // API doesn’t give type, you can improve classification later
+        manufacturer: item.openfda?.manufacturer_name?.[0] || "Not specified",
+        warnings: item.warnings?.[0] || null,
+        dosage: item.dosage_and_administration?.[0] || null
+      }));
     }
 
     return medicineDatabase;
   } catch (error) {
-    console.error("Error fetching medicines from MyUpchar:", error);
+    console.error("Error fetching medicines from openFDA:", error);
     return [];
   }
 };
