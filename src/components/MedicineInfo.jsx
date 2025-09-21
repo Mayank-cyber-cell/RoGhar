@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Search, Filter, Pill, AlertCircle, Sparkles } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import {
@@ -6,6 +7,7 @@ import {
   medicineTypes,
   searchMedicines,
   filterMedicinesByType,
+  initializeMedicineDatabase,
 } from "../data/medicineData";
 import MedicineCard from "./MedicineCard";
 import MedicineDetailsModal from "./MedicineDetailsModal";
@@ -16,26 +18,54 @@ const MedicineInfo = () => {
   const [selectedType, setSelectedType] = useState("All");
   const [selectedMedicine, setSelectedMedicine] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [medicines, setMedicines] = useState([]);
 
-  // Simple search function
-  const handleSearch = (query) => {
+  // Initialize medicine database on component mount
+  useEffect(() => {
+    const loadInitialMedicines = async () => {
+      setIsLoading(true);
+      try {
+        await initializeMedicineDatabase();
+        setMedicines([...medicineDatabase]);
+      } catch (error) {
+        console.error("Error loading medicines:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadInitialMedicines();
+  }, []);
+
+  // Enhanced search function with API integration
+  const handleSearch = async (query) => {
     setSearchQuery(query);
+    if (query.trim()) {
+      setIsLoading(true);
+      try {
+        const results = await searchMedicines(query, medicines);
+        setMedicines(results);
+      } catch (error) {
+        console.error("Error searching medicines:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      // Reset to all medicines when search is cleared
+      setMedicines([...medicineDatabase]);
+    }
   };
 
   // Filter medicines by type and search query
   const filteredMedicines = useMemo(() => {
-    let results = medicineDatabase;
-    
-    // Apply search filter
-    if (searchQuery.trim()) {
-      results = searchMedicines(searchQuery, results);
-    }
+    let results = medicines;
     
     // Apply type filter
     results = filterMedicinesByType(selectedType, results);
     
     return results;
-  }, [searchQuery, selectedType]);
+  }, [medicines, selectedType]);
 
   const handleViewDetails = (medicine) => {
     setSelectedMedicine(medicine);
@@ -50,6 +80,7 @@ const MedicineInfo = () => {
   const clearFilters = () => {
     setSearchQuery("");
     setSelectedType("All");
+    setMedicines([...medicineDatabase]);
   };
 
   return (
@@ -89,12 +120,24 @@ const MedicineInfo = () => {
                   type="text"
                   placeholder="Search by medicine name, condition, or symptoms..."
                   value={searchQuery}
-                  onChange={(e) => handleSearch(e.target.value)}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    setSearchQuery(value);
+                    // Debounce the search
+                    clearTimeout(window.searchTimeout);
+                    window.searchTimeout = setTimeout(() => {
+                      handleSearch(value);
+                    }, 500);
+                  }}
                   className="w-full pl-12 pr-6 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
+                  disabled={isLoading}
                 />
                 {searchQuery && (
                   <button
-                    onClick={() => handleSearch("")}
+                    onClick={() => {
+                      setSearchQuery("");
+                      handleSearch("");
+                    }}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl"
                   >
                     ×
@@ -114,6 +157,7 @@ const MedicineInfo = () => {
                   value={selectedType}
                   onChange={(e) => setSelectedType(e.target.value)}
                   className="w-full pl-12 pr-6 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none bg-white text-lg"
+                  disabled={isLoading}
                 >
                   {medicineTypes.map((type) => (
                     <option key={type} value={type}>
@@ -128,7 +172,9 @@ const MedicineInfo = () => {
           {/* Results Count */}
           <div className="mt-6 flex items-center justify-between">
             <div className="text-sm font-medium text-gray-600">
-              {filteredMedicines.length > 0 ? (
+              {isLoading ? (
+                <span className="text-blue-600">🔄 Loading medicines...</span>
+              ) : filteredMedicines.length > 0 ? (
                 <span>
                   📊 Showing <span className="font-bold text-blue-600">{filteredMedicines.length}</span> medicine
                   {filteredMedicines.length !== 1 ? "s" : ""}
@@ -143,7 +189,28 @@ const MedicineInfo = () => {
         </div>
 
         {/* Medicine Cards Grid or No Results */}
-        {filteredMedicines.length > 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 animate-pulse">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-14 h-14 bg-gray-200 rounded-2xl"></div>
+                    <div>
+                      <div className="h-6 bg-gray-200 rounded w-32 mb-2"></div>
+                      <div className="h-4 bg-gray-200 rounded w-20"></div>
+                    </div>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <div className="h-4 bg-gray-200 rounded w-full"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-10 bg-gray-200 rounded w-full mt-4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filteredMedicines.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredMedicines.map((medicine) => (
               <MedicineCard
@@ -163,7 +230,7 @@ const MedicineInfo = () => {
             <p className="text-gray-600 mb-6">
               {searchQuery
                 ? `We couldn't find any medicines matching "${searchQuery}". Please try another medicine name.`
-                : "No medicines available in the database. The medicine database is currently empty."}
+                : "No medicines available. Try searching for a specific medicine name."}
             </p>
             {(searchQuery || selectedType !== "All") && (
               <button

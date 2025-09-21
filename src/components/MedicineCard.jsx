@@ -57,6 +57,11 @@ const MedicineCard = ({ medicine, onViewDetails }) => {
             <h3 className="text-xl font-bold text-gray-900 group-hover:text-blue-700 transition-colors">
               {medicine.name}
             </h3>
+            {medicine.genericName && (
+              <p className="text-sm text-gray-500 mb-1">
+                Generic: {medicine.genericName}
+              </p>
+            )}
             <span
               className={`inline-block px-3 py-1 text-xs font-semibold rounded-full ${getTypeColor(
                 medicine.type
@@ -64,6 +69,11 @@ const MedicineCard = ({ medicine, onViewDetails }) => {
             >
               {medicine.type}
             </span>
+            {medicine.fdaSource && (
+              <span className="inline-block ml-2 px-2 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-800">
+                FDA Verified
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -78,8 +88,15 @@ const MedicineCard = ({ medicine, onViewDetails }) => {
         <div className="flex items-center space-x-2 text-sm text-gray-500 bg-gray-50 rounded-lg p-2">
           <Clock className="w-4 h-4" />
           <span className="font-semibold text-gray-700">Dosage:</span>
-          <span className="text-gray-600">{medicine.dosage}</span>
+          <span className="text-gray-600">{medicine.dosage?.substring(0, 50)}{medicine.dosage?.length > 50 ? "..." : ""}</span>
         </div>
+        
+        {medicine.manufacturer && (
+          <div className="flex items-center space-x-2 text-sm text-gray-500 bg-gray-50 rounded-lg p-2">
+            <span className="font-semibold text-gray-700">Manufacturer:</span>
+            <span className="text-gray-600">{medicine.manufacturer}</span>
+          </div>
+        )}
 
         <div className="pt-4 border-t border-gray-100">
           <button

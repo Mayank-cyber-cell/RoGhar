@@ -39,7 +39,20 @@ const MedicineDetailsModal = ({ medicine, isOpen, onClose }) => {
               <h2 className="text-3xl font-bold text-white">
                 {medicine.name}
               </h2>
-              <span className="text-lg text-blue-100 font-medium">{medicine.type}</span>
+              <div className="flex items-center space-x-3 mt-2">
+                <span className="text-lg text-blue-100 font-medium">{medicine.type}</span>
+                {medicine.fdaSource && (
+                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-green-500 text-white">
+                    FDA Verified
+                  </span>
+                )}
+              </div>
+              {medicine.genericName && (
+                <p className="text-blue-200 mt-1">Generic: {medicine.genericName}</p>
+              )}
+              {medicine.manufacturer && (
+                <p className="text-blue-200 text-sm">Manufactured by: {medicine.manufacturer}</p>
+              )}
             </div>
           </div>
           <button
@@ -64,10 +77,27 @@ const MedicineDetailsModal = ({ medicine, isOpen, onClose }) => {
             </div>
             <div className="bg-blue-50 rounded-xl p-6 border border-blue-100">
               <p className="text-gray-700 leading-relaxed text-lg">
-              {medicine.description}
-            </p>
+                {medicine.description}
+              </p>
             </div>
           </div>
+
+          {/* Route of Administration */}
+          {medicine.route && (
+            <div>
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                  <Info className="w-5 h-5 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">
+                  Route of Administration
+                </h3>
+              </div>
+              <div className="bg-purple-50 border-2 border-purple-200 rounded-xl p-6">
+                <p className="text-purple-800 font-semibold text-lg">{medicine.route}</p>
+              </div>
+            </div>
+          )}
 
           {/* Dosage */}
           <div>
