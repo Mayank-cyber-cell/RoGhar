@@ -84,7 +84,7 @@ const fetchSingleMedicine = async (medicineName) => {
           "Possible side effects may include nausea, dizziness, or allergic reactions. Contact healthcare provider if symptoms persist.";
 
         return {
-          id: `fda-${Date.now()}-${index}`,
+          id: `fda-${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${index}`,
           name: brandName,
           genericName: genericName,
           manufacturer: manufacturer,
@@ -118,7 +118,7 @@ const fetchFromNDC = async (medicineName) => {
 
     if (data.results && data.results.length > 0) {
       return data.results.map((item, index) => ({
-        id: `ndc-${Date.now()}-${index}`,
+        id: `ndc-${Date.now()}-${Math.random().toString(36).substring(2, 15)}-${index}`,
         name: item.brand_name || item.generic_name || medicineName,
         genericName: item.generic_name || "",
         manufacturer: item.labeler_name || "Unknown Manufacturer",
