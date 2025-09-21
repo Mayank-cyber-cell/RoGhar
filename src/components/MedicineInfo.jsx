@@ -1,4 +1,3 @@
-import { useState, useMemo } from "react";
 import { useState, useMemo, useEffect } from "react";
 import { Search, Filter, Pill, AlertCircle, Sparkles } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
