@@ -1,4 +1,4 @@
-g
+
 <p align="center">
   <img src="https://img.shields.io/badge/status-alpha-orange" alt="status" />&nbsp;
   <img src="https://img.shields.io/github/languages/top/Mayank-cyber-cell/RoGhar" alt="top-language" />&nbsp;
@@ -10,8 +10,6 @@ g
 ## 🎯 Project Overview
 
 **RoGhar** — a simple, friendly platform to help daily-wage workers find safe, affordable housing and let employers or residents list short-term accommodations. Built with empathy, the project focuses on trust, safety, and quick discovery.
-
-> Short: search houses, list rooms, and connect workers to secure stays.
 
 ---
 
