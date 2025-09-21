@@ -39,14 +39,14 @@ const MedicineInfo = () => {
 
   // Enhanced search function with API integration
   const handleSearch = async (query) => {
-    setSearchQuery(query);
     if (query.trim()) {
       setIsLoading(true);
       try {
-        const results = await searchMedicines(query, medicines);
+        const results = await searchMedicines(query, medicineDatabase);
         setMedicines(results);
       } catch (error) {
         console.error("Error searching medicines:", error);
+        setMedicines([...medicineDatabase]);
       } finally {
         setIsLoading(false);
       }
@@ -119,14 +119,11 @@ const MedicineInfo = () => {
                   type="text"
                   placeholder="Search by medicine name, condition, or symptoms..."
                   value={searchQuery}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setSearchQuery(value);
-                    // Debounce the search
-                    clearTimeout(window.searchTimeout);
-                    window.searchTimeout = setTimeout(() => {
-                      handleSearch(value);
-                    }, 500);
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      handleSearch(searchQuery);
+                    }
                   }}
                   className="w-full pl-12 pr-6 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-lg"
                   disabled={isLoading}
@@ -135,7 +132,7 @@ const MedicineInfo = () => {
                   <button
                     onClick={() => {
                       setSearchQuery("");
-                      handleSearch("");
+                      setMedicines([...medicineDatabase]);
                     }}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xl"
                   >
@@ -143,6 +140,13 @@ const MedicineInfo = () => {
                   </button>
                 )}
               </div>
+              <button
+                onClick={() => handleSearch(searchQuery)}
+                className="mt-2 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={isLoading || !searchQuery.trim()}
+              >
+                Search
+              </button>
             </div>
 
             {/* Type Filter */}
