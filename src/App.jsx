@@ -10,6 +10,12 @@ import DoctorDashboard from "./pages/DoctorDashboard";
 import BookAppointment from "./pages/BookAppointment";
 import HealthRecords from "./pages/HealthRecords";
 import TestReports from "./pages/TestReports";
+import MockupDashboard from "./pages/MockupDashboard";
+import HospitalMap from "./pages/HospitalMap";
+import QRGenerator from "./pages/QRGenerator";
+import SecurityPage from "./pages/SecurityPage";
+import BlogFAQ from "./pages/BlogFAQ";
+import PrototypeShowcase from "./pages/PrototypeShowcase";
 
 function App() {
   return (
@@ -34,6 +40,12 @@ function App() {
               <Route path="/doctor/login" element={<DoctorLogin />} />
               <Route path="/doctor/signup" element={<DoctorLogin />} />
               <Route path="/doctor/dashboard" element={<DoctorDashboard />} />
+              <Route path="/mockup-dashboard" element={<MockupDashboard />} />
+              <Route path="/hospital-map" element={<HospitalMap />} />
+              <Route path="/qr-generator" element={<QRGenerator />} />
+              <Route path="/security" element={<SecurityPage />} />
+              <Route path="/blog-faq" element={<BlogFAQ />} />
+              <Route path="/prototype-showcase" element={<PrototypeShowcase />} />
             </Routes>
           </div>
         </Router>

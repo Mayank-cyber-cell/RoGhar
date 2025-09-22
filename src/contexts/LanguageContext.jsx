@@ -5,8 +5,11 @@ const LanguageContext = createContext()
 const translations = {
   en: {
     welcome: 'Welcome to Kerala Migrant Health Portal',
+    welcomeRoghar: 'Welcome to ROGHAR',
     workerLogin: 'Worker Login',
     doctorLogin: 'Doctor Login',
+    workerSignup: 'Worker Signup',
+    doctorSignup: 'Doctor Signup',
     signup: 'Sign Up',
     login: 'Login',
     aadharNumber: 'Aadhar Number',
@@ -66,12 +69,25 @@ const translations = {
     description: 'Description',
     usage: 'Usage',
     noMedicineFound: 'No information available, please try another medicine',
-    medicalDisclaimer: 'Medical Disclaimer'
+    medicalDisclaimer: 'Medical Disclaimer',
+    mockupDashboard: 'Live Dashboard',
+    hospitalMap: 'Hospital Map',
+    qrGenerator: 'QR Generator',
+    whySafe: 'Why Safe?',
+    blogFaq: 'Blog & FAQ',
+    prototypeShowcase: 'Prototype Demo',
+    nearbyHospitals: 'Nearby Hospitals',
+    generateQR: 'Generate QR Code',
+    securityFeatures: 'Security Features',
+    healthAwareness: 'Health Awareness'
   },
   hi: {
     welcome: 'केरल प्रवासी स्वास्थ्य पोर्टल में आपका स्वागत है',
+    welcomeRoghar: 'रोघर में आपका स्वागत है',
     workerLogin: 'श्रमिक लॉगिन',
     doctorLogin: 'डॉक्टर लॉगिन',
+    workerSignup: 'श्रमिक साइन अप',
+    doctorSignup: 'डॉक्टर साइन अप',
     signup: 'साइन अप',
     login: 'लॉगिन',
     aadharNumber: 'आधार नंबर',
@@ -131,12 +147,25 @@ const translations = {
     description: 'विवरण',
     usage: 'उपयोग',
     noMedicineFound: 'कोई जानकारी उपलब्ध नहीं है, कृपया कोई अन्य दवा आज़माएं',
-    medicalDisclaimer: 'चिकित्सा अस्वीकरण'
+    medicalDisclaimer: 'चिकित्सा अस्वीकरण',
+    mockupDashboard: 'लाइव डैशबोर्ड',
+    hospitalMap: 'अस्पताल मानचित्र',
+    qrGenerator: 'क्यूआर जेनरेटर',
+    whySafe: 'क्यों सुरक्षित?',
+    blogFaq: 'ब्लॉग और FAQ',
+    prototypeShowcase: 'प्रोटोटाइप डेमो',
+    nearbyHospitals: 'नजदीकी अस्पताल',
+    generateQR: 'क्यूआर कोड जेनरेट करें',
+    securityFeatures: 'सुरक्षा सुविधाएं',
+    healthAwareness: 'स्वास्थ्य जागरूकता'
   },
   ml: {
     welcome: 'കേരള കുടിയേറ്റ ആരോഗ്യ പോർട്ടലിലേക്ക് സ്വാഗതം',
+    welcomeRoghar: 'രോഘറിലേക്ക് സ്വാഗതം',
     workerLogin: 'തൊഴിലാളി ലോഗിൻ',
     doctorLogin: 'ഡോക്ടർ ലോഗിൻ',
+    workerSignup: 'തൊഴിലാളി സൈൻ അപ്പ്',
+    doctorSignup: 'ഡോക്ടർ സൈൻ അപ്പ്',
     signup: 'സൈൻ അപ്പ്',
     login: 'ലോഗിൻ',
     aadharNumber: 'ആധാർ നമ്പർ',
@@ -196,7 +225,17 @@ const translations = {
     description: 'വിവരണം',
     usage: 'ഉപയോഗം',
     noMedicineFound: 'വിവരങ്ങൾ ലഭ്യമല്ല, ദയവായി മറ്റൊരു മരുന്ന് പരീക്ഷിക്കുക',
-    medicalDisclaimer: 'മെഡിക്കൽ നിരാകരണം'
+    medicalDisclaimer: 'മെഡിക്കൽ നിരാകരണം',
+    mockupDashboard: 'ലൈവ് ഡാഷ്ബോർഡ്',
+    hospitalMap: 'ആശുപത്രി മാപ്പ്',
+    qrGenerator: 'ക്യുആർ ജനറേറ്റർ',
+    whySafe: 'എന്തുകൊണ്ട് സുരക്ഷിതം?',
+    blogFaq: 'ബ്ലോഗും FAQ യും',
+    prototypeShowcase: 'പ്രോട്ടോടൈപ്പ് ഡെമോ',
+    nearbyHospitals: 'അടുത്തുള്ള ആശുപത്രികൾ',
+    generateQR: 'ക്യുആർ കോഡ് ജനറേറ്റ് ചെയ്യുക',
+    securityFeatures: 'സുരക്ഷാ സവിശേഷതകൾ',
+    healthAwareness: 'ആരോഗ്യ അവബോധം'
   }
 }
 
