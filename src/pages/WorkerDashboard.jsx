@@ -11,6 +11,8 @@ import {
   Clock,
   CheckCircle,
   Pill,
+  Video,
+  MapPin,
 } from "lucide-react";
 
 const WorkerDashboard = () => {
@@ -113,6 +115,45 @@ const WorkerDashboard = () => {
 
         {/* Quick Actions */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          <Link
+            to="/health-dashboard"
+            className="bg-blue-600 text-white p-6 rounded-xl hover:bg-blue-700 transition-colors group"
+          >
+            <FileText className="w-8 h-8 mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold mb-2">
+              Health Dashboard
+            </h3>
+            <p className="text-blue-200">
+              Complete health profile with QR codes and voice support
+            </p>
+          </Link>
+
+          <Link
+            to="/doctor-consultation"
+            className="bg-purple-600 text-white p-6 rounded-xl hover:bg-purple-700 transition-colors group"
+          >
+            <Video className="w-8 h-8 mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold mb-2">
+              {t("startConsultation")}
+            </h3>
+            <p className="text-purple-200">
+              Video consultation with qualified doctors
+            </p>
+          </Link>
+
+          <Link
+            to="/nearby-services"
+            className="bg-red-600 text-white p-6 rounded-xl hover:bg-red-700 transition-colors group"
+          >
+            <MapPin className="w-8 h-8 mb-4 group-hover:scale-110 transition-transform" />
+            <h3 className="text-lg font-semibold mb-2">
+              {t("nearbyServices")}
+            </h3>
+            <p className="text-red-200">
+              Find nearby hospitals and emergency services
+            </p>
+          </Link>
+
           <Link
             to="/worker/book-appointment"
             className="bg-primary text-white p-6 rounded-xl hover:bg-primary-dark transition-colors group"

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLanguage } from "../contexts/LanguageContext";
 import Header from "../components/Header";
+import VoiceInput from "../components/VoiceInput";
 import {
   BookOpen,
   HelpCircle,
@@ -23,6 +24,8 @@ const BlogFAQ = () => {
   const [activeTab, setActiveTab] = useState("blog");
   const [expandedFAQ, setExpandedFAQ] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
 
   const blogPosts = [
     {
@@ -193,6 +196,35 @@ const BlogFAQ = () => {
     setExpandedFAQ(expandedFAQ === key ? null : key);
   };
 
+  const handleVoiceSearch = (transcript) => {
+    setSearchQuery(transcript);
+  };
+
+  const addComment = (postId) => {
+    if (newComment.trim()) {
+      const comment = {
+        id: Date.now(),
+        postId,
+        text: newComment,
+        author: "Anonymous User",
+        date: new Date().toLocaleDateString(),
+        timestamp: new Date().toISOString()
+      };
+      
+      const savedComments = JSON.parse(localStorage.getItem('roghar_comments') || '[]');
+      savedComments.push(comment);
+      localStorage.setItem('roghar_comments', JSON.stringify(savedComments));
+      
+      setComments(savedComments);
+      setNewComment("");
+    }
+  };
+
+  // Load comments from localStorage
+  useState(() => {
+    const savedComments = JSON.parse(localStorage.getItem('roghar_comments') || '[]');
+    setComments(savedComments);
+  }, []);
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -305,6 +337,45 @@ const BlogFAQ = () => {
                     <p className="text-gray-600 text-sm mb-4">
                       {post.excerpt}
                     </p>
+                    
+                    {/* Comments Section */}
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <h4 className="text-sm font-medium text-gray-900 mb-2">Comments</h4>
+                      
+                      {/* Existing Comments */}
+                      <div className="space-y-2 mb-3">
+                        {comments
+                          .filter(comment => comment.postId === post.id)
+                          .slice(0, 2)
+                          .map(comment => (
+                            <div key={comment.id} className="bg-gray-50 rounded p-2">
+                              <p className="text-xs text-gray-700">{comment.text}</p>
+                              <p className="text-xs text-gray-500 mt-1">
+                                {comment.author} • {comment.date}
+                              </p>
+                            </div>
+                          ))}
+                      </div>
+                      
+                      {/* Add Comment */}
+                      <div className="flex space-x-2">
+                        <input
+                          type="text"
+                          value={newComment}
+                          onChange={(e) => setNewComment(e.target.value)}
+                          placeholder="Add a comment..."
+                          className="flex-1 px-2 py-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-1 focus:ring-primary"
+                          onKeyPress={(e) => e.key === 'Enter' && addComment(post.id)}
+                        />
+                        <button
+                          onClick={() => addComment(post.id)}
+                          className="px-3 py-1 bg-primary text-white rounded text-xs hover:bg-primary-dark"
+                        >
+                          Post
+                        </button>
+                      </div>
+                    </div>
+                    
                     <div className="flex items-center justify-between">
                       <div className="text-xs text-gray-500">
                         By {post.author} • {post.date}
@@ -325,7 +396,8 @@ const BlogFAQ = () => {
           <div>
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto mb-12">
-              <div className="relative">
+              <div className="flex items-center space-x-4">
+                <div className="relative flex-1">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="text"
@@ -333,6 +405,11 @@ const BlogFAQ = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent text-lg"
+                />
+              </div>
+                <VoiceInput 
+                  onResult={handleVoiceSearch}
+                  placeholder="Search FAQs with voice..."
                 />
               </div>
             </div>

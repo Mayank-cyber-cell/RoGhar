@@ -24,23 +24,23 @@ const HomePage = () => {
   const features = [
     {
       icon: FileText,
-      title: "Live Health Dashboard",
-      description: "Complete health records, vaccination status, and prescription management",
-      link: "/mockup-dashboard",
+      title: "Health Dashboard (Demo)",
+      description: "Complete patient profile with health records, vaccination status, and QR codes",
+      link: "/health-dashboard",
       color: "bg-blue-500"
     },
     {
       icon: MapPin,
-      title: "Hospital Finder",
-      description: "Interactive map showing nearby hospitals with real-time availability",
-      link: "/hospital-map",
+      title: "Nearby Medical Services",
+      description: "Interactive map with emergency SOS and nearby hospitals",
+      link: "/nearby-services",
       color: "bg-green-500"
     },
     {
       icon: QrCode,
-      title: "QR Code Generator",
-      description: "Generate secure QR codes for instant health record sharing",
-      link: "/qr-generator",
+      title: "Doctor Consultation",
+      description: "Video consultation with qualified doctors (Agora SDK demo)",
+      link: "/doctor-consultation",
       color: "bg-purple-500"
     },
     {
@@ -63,6 +63,13 @@ const HomePage = () => {
       description: "Interactive demo showcasing all platform capabilities",
       link: "/prototype-showcase",
       color: "bg-indigo-500"
+    }
+    {
+      icon: QrCode,
+      title: "QR Code Generator",
+      description: "Generate secure QR codes for instant health record sharing",
+      link: "/qr-generator",
+      color: "bg-orange-500"
     }
   ];
 

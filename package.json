@@ -10,9 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "agora-rtc-sdk-ng": "^4.24.0",
+    "firebase": "^12.3.0",
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.544.0",
+    "qrcode.js": "^0.0.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-leaflet": "^5.0.0",
+    "react-qr-code": "^2.0.18",
     "react-router-dom": "^7.9.1"
   },
   "devDependencies": {

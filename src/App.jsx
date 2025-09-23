@@ -16,6 +16,9 @@ import QRGenerator from "./pages/QRGenerator";
 import SecurityPage from "./pages/SecurityPage";
 import BlogFAQ from "./pages/BlogFAQ";
 import PrototypeShowcase from "./pages/PrototypeShowcase";
+import DoctorConsultation from "./pages/DoctorConsultation";
+import NearbyServices from "./pages/NearbyServices";
+import HealthDashboard from "./pages/HealthDashboard";
 
 function App() {
   return (
@@ -46,6 +49,9 @@ function App() {
               <Route path="/security" element={<SecurityPage />} />
               <Route path="/blog-faq" element={<BlogFAQ />} />
               <Route path="/prototype-showcase" element={<PrototypeShowcase />} />
+              <Route path="/doctor-consultation" element={<DoctorConsultation />} />
+              <Route path="/nearby-services" element={<NearbyServices />} />
+              <Route path="/health-dashboard" element={<HealthDashboard />} />
             </Routes>
           </div>
         </Router>

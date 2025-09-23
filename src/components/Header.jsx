@@ -18,8 +18,9 @@ const Header = () => {
   };
 
   const navigationItems = [
-    { path: "/mockup-dashboard", label: t("mockupDashboard") },
-    { path: "/hospital-map", label: t("hospitalMap") },
+    { path: "/health-dashboard", label: "Health Dashboard" },
+    { path: "/nearby-services", label: t("nearbyServices") },
+    { path: "/doctor-consultation", label: t("startConsultation") },
     { path: "/qr-generator", label: t("qrGenerator") },
     { path: "/security", label: t("whySafe") },
     { path: "/blog-faq", label: t("blogFaq") },
