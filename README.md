@@ -13,7 +13,7 @@
 
 ---
 
-## ✨ Features (quick)
+## ✨ Features 
 
 - 🔍 Search accommodations by city, price, and worker-friendly amenities  
 - 📝 Host a listing: add photos, nightly price, rules, and contact info  
